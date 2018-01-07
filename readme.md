@@ -1,7 +1,13 @@
 # AGL(Angular Triplet Loss)
 
 ## Theory
-![](./form/Angular.bmp)
+![](./form/Angular.png)
 
 ## Result
-![](./form/result.bmp)
+![](./form/result.png)
+
+## Usage
+![](./form/MarginLayer.png)
+
+## Contributor
+@KaleidoZhouYN
