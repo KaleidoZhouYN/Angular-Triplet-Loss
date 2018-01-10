@@ -48,12 +48,14 @@ __global__ void Set_semihard_gpu(int nthreads, const int N_, const int K_, Dtype
 }		
 
 template <typename Dtype>
-__global__ void Set_weight_gpu(int nthreads, const int K_, Dtype* m_weight,const Dtype* bottom_data,const Dtype* label) {
+__global__ void Set_weight_gpu(int nthreads, const int K_, Dtype* m_weight,const Dtype* bottom_data,const Dtype* label,const int* ran) {
   CUDA_KERNEL_LOOP(index, nthreads) {
 	const int label_i = static_cast<int>(label[index]); 
-    for (int i = 0; i < K_; i++) {
-  	  m_weight[label_i * K_ + i] = bottom_data[index * K_ + i];
-  	}
+	int ran_flag = ran[index];
+	if (ran_flag > 4)
+		for (int i = 0; i < K_; i++) {
+			m_weight[label_i * K_ + i] = bottom_data[index * K_ + i];
+		}
   }
 }		
 	
@@ -463,8 +465,11 @@ void MarginInnerProductLayer<Dtype>::Backward_gpu(const vector<Blob<Dtype>*>& to
     // Gradient with respect to weight
 	if (triplet_flag)
 	{
+		int* ran = ran_.mutable_cpu_data(); 
+		for (int m = 0; m < M_; m++)
+			ran[m] = caffe_rng_rand() % int(10); 
 		Set_weight_gpu<Dtype><<<CAFFE_GET_BLOCKS(M_),
-			CAFFE_CUDA_NUM_THREADS>>>(M_,K_,m_weight,bottom_data,label);
+			CAFFE_CUDA_NUM_THREADS>>>(M_,K_,m_weight,bottom_data,label,ran_.gpu_data()); 
 		
 		Set_weight_diff_gpu<Dtype><<<CAFFE_GET_BLOCKS(N_),
 			CAFFE_CUDA_NUM_THREADS>>>(N_, K_,

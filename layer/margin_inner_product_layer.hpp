@@ -61,6 +61,7 @@ class MarginInnerProductLayer : public Layer<Dtype> {
   Blob<Dtype> cos_theta_quartic_;
   
   Blob<Dtype> margin_top_data_; 
+  Blob<int> ran_; 
 
   int iter_;
   Dtype lambda_;

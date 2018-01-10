@@ -77,6 +77,7 @@ void MarginInnerProductLayer<Dtype>::Reshape(const vector<Blob<Dtype>*>& bottom,
   // common temp variables
   vector<int> shape_1_X_M(1, M_);
   x_norm_.Reshape(shape_1_X_M);
+  ran_.Reshape(shape_1_X_M); 
   sign_0_.Reshape(top_shape);
   cos_theta_.Reshape(top_shape);
   margin_top_data_.Reshape(top_shape);
@@ -414,7 +415,9 @@ void MarginInnerProductLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype>*>& to
 		for (int i = 0; i < M_; i++) // M_*K_
 		{
 			int label_i = int(label[i]);
-			caffe_copy(K_,(Dtype*)&bottom_data[i],(Dtype*)&m_weight[label_i]);
+			int ran_flag = caffe_rng_rand() % int(10);
+			if (ran_flag > 4)
+				caffe_copy(K_,(Dtype*)&bottom_data[i],(Dtype*)&m_weight[label_i]);
 		}
 		for (int n = 0; n < N_; n++)  // N_*K_
 		{

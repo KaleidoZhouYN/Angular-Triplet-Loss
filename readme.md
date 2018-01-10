@@ -74,6 +74,11 @@ set triplet & semihard param to true.
 train with solver(see in proto/face_solver.prototxt)
 
 **trainning log will be upload soon** 
+
+**In my experiment,method 2 converge faster than original sphereface,so maybe there is no need for you to try different m and lambda_min if you want to get a good result.I'm still focus on this method nowadays.**
+
+#### final state
+**notice that original triplet loss also use Margin.So for small training set(like casia webface),you may set m=2 and lambda_min = 3 in Angular Triplet Loss.**
  
 
 
