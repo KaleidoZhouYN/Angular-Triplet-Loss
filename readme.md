@@ -47,6 +47,43 @@ softmax是这样的，它要维护一个类中心（即分类层的权重），�
 ![](./form/result.png)
 
 ## Usage
+### caffe_layer
+1.put marginInnerProduct.hpp/.cpp/.cu into caffe dir.
+
+2.add 
+
+	message LayerParameter {
+	...
+	optional MarginInnerProductParameter margin_inner_product_param = 147;
+	...
+	}
+
+	message MarginInnerProductParameter {
+	  optional uint32 num_output = 1; // The number of outputs for the layer
+	  enum MarginType {
+	    SINGLE = 0;
+	    DOUBLE = 1;
+	    TRIPLE = 2;
+	    QUADRUPLE = 3;
+	  }
+	  optional MarginType type = 2 [default = SINGLE]; 
+	  optional FillerParameter weight_filler = 3; // The filler for the weight
+	
+	  // The first axis to be lumped into a single inner product computation;
+	  // all preceding axes are retained in the output.
+	  // May be negative to index from the end (e.g., -1 for the last axis).
+	  optional int32 axis = 4 [default = 1];
+	  optional float base = 5 [default = 1];
+	  optional float gamma = 6 [default = 0];
+	  optional float power = 7 [default = 1];
+	  optional int32 iteration = 8 [default = 0];
+	  optional float lambda_min = 9 [default = 0];
+	  optional bool triplet = 10 [default = false];
+	  optional bool semihard = 11 [default = false];
+	}
+
+in your caffe.proto
+
 
 ### alignment 
 use RSA for landmark detection && AlignWuXiang with ec-my-y = 40 and size = [112,112]
