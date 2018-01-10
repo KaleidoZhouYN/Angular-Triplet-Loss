@@ -1,0 +1,20 @@
+net: "face_model.prototxt"
+
+base_lr:0.1
+lr_policy: "multistep"
+#lr_policy:"fixed"
+gamma: 0.1
+
+stepvalue:30000 # 10 epochs
+stepvalue:60000 # 20 epochs
+stepvalue:90000 # 30 epochs
+
+max_iter: 120000
+
+display: 100
+momentum: 0.9
+weight_decay: 0.0005
+snapshot: 1000
+snapshot_prefix: "./face_triplet"
+
+solver_mode: GPU
