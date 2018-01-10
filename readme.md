@@ -49,12 +49,14 @@ softmax是这样的，它要维护一个类中心（即分类层的权重），�
 ## Usage
 
 ### alignment 
-use RSA for landmark detection && AlignWuXiang with ec_my_y = 40 and size = [112,112]
+use RSA for landmark detection && AlignWuXiang with ec-my-y = 40 and size = [112,112]
 
 ### deploy
 resface 28 layer(see in proto/face_deploy.prototxt)
 
 ### train
+#### method 1:step
+
 step 1:
 
 train a pre-trained model use sphereface.
@@ -62,8 +64,18 @@ train a pre-trained model use sphereface.
 step 2:
 
 set triplet & semihard param to true.
- 
+
 ![](./form/MarginLayer.png)
+
+#### method 2:directly train
+
+set triplet & semihard param to true.
+
+train with solver(see in proto/face_solver.prototxt)
+
+**trainning log will be upload soon** 
+ 
+
 
 ## Reference
 1.FaceNet: A Unified Embedding for Face Recognition and Clustering
